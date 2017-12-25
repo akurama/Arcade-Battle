@@ -4,15 +4,22 @@ using UnityEngine;
 
 public class GamemodeBase : MonoBehaviour
 {
+    public GameManager gameManager;
+    public int[] gameScroes = new int[2];
+    public int gameToTotal;
+    public float time = 60f;
 
-    // Use this for initialization
-    void Start()
+    public void InitStart()
+    {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+    }
+
+    public virtual void CheckIfEnd()
     {
 
     }
 
-    // Update is called once per frame
-    void Update()
+    public virtual void GameEnd()
     {
 
     }

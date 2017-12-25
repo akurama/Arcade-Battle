@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public List<TextMeshProUGUI> texts;
 
     public int multiplyer = 1;
+    public int[] scroes = new int[2];
 
     // Use this for initialization
     void Start()
