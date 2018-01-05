@@ -1,9 +1,9 @@
-/KingOfWOP/[Ll]ibrary/
-/KingOfWOP/[[Tt]emp/
-/KingOfWOP/[Oo]bj/
-/KingOfWOP/[Bb]uild/
-/KingOfWOP/[Bb]uilds/
-/KingOfWOP/Assets/AssetStoreTools*
+KingOfWOP/[Ll]ibrary/
+KingOfWOP/[[Tt]emp/
+KingOfWOP/[Oo]bj/
+KingOfWOP/[Bb]uild/
+KingOfWOP/[Bb]uilds/
+KingOfWOP/Assets/AssetStoreTools*
 
 # Visual Studio 2015 cache directory
 /.vs/
