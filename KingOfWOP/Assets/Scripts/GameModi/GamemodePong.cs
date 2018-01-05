@@ -29,6 +29,7 @@ public class GamemodePong : GamemodeBase
         for(int i = 0; i < gameManager.scroes.Length; i++)
         {
             gameManager.scroes[i] = (gameScroes[i] * gameToTotal) * gameManager.multiplyer;
+            gameManager.NextGame();
         }
     }
 }

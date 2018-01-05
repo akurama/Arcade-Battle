@@ -4,6 +4,9 @@ public class PongBallController : MonoBehaviour
 {
     public Vector3 movementDirection;
     public float speed = 1f;
+    private float initSpeed;
+    public float maxSpeed = 5f;
+    [Range(0, 1)] public float speedMultiplyer;
     ContactPoint[] points;
     private Vector3 beginDir;
     public GamemodePong gamemodePong;
@@ -12,17 +15,12 @@ public class PongBallController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        //Setup Values
         beginDir = movementDirection;
         gamemodePong = GameObject.Find("Pong").GetComponent<GamemodePong>();
+        initSpeed = speed;
 
-        if (RandomStart())
-        {
-            movementDirection = -movementDirection;
-        }
-        else
-        {
-            movementDirection = movementDirection;
-        }
+        SetUpDirection();
     }
 
     // Update is called once per frame
@@ -46,7 +44,13 @@ public class PongBallController : MonoBehaviour
 
     void Movement()
     {
+        movementDirection = movementDirection.normalized;
         transform.position += movementDirection * speed * Time.deltaTime;
+        
+        if(speed <= maxSpeed)
+        {
+            speed += Time.deltaTime * speedMultiplyer;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -86,13 +90,23 @@ public class PongBallController : MonoBehaviour
         }
 
         this.transform.position = Vector3.zero;
+        
+        SetUpDirection();
+
+        speed = initSpeed;
+    }
+
+    void SetUpDirection()
+    {
         if(RandomStart())
         {
-            movementDirection = -movementDirection;
+            movementDirection.x = -1;
+            movementDirection.y = 0;
         }
         else
         {
-            movementDirection = movementDirection;
+            movementDirection.x = 1;
+            movementDirection.y = 0;
         }
     }
 }
