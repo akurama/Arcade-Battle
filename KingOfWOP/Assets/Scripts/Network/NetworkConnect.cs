@@ -35,6 +35,7 @@ public class NetworkConnect : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
+		roomEntryList = new List<GameObject>();
 		InitUI();
 		Debug.Log("Connecting to server.......");
 		PhotonNetwork.ConnectUsingSettings("0.0.1");	
