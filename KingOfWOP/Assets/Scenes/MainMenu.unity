@@ -264,7 +264,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 354988354}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 724748108}
+        m_MethodName: GoOnline
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &354988354
@@ -1107,6 +1118,8 @@ MonoBehaviour:
   SettingsMenu: {fileID: 2045395936}
   LocalMenu: {fileID: 633123707}
   eventSystem: {fileID: 1671937450}
+  selectedColor: {r: 0.034602053, g: 0.9411765, b: 0.45350203, a: 1}
+  playerNameInputField: {fileID: 384140660}
 --- !u!1 &835299085
 GameObject:
   m_ObjectHideFlags: 0
@@ -1406,7 +1419,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1046710960}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1046710960
@@ -2473,7 +2497,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1694224299}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 724748108}
+        m_MethodName: ChangeToOnlineMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1694224299

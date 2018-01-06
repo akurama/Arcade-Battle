@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class MainMenuController : MonoBehaviour 
@@ -18,6 +19,9 @@ public class MainMenuController : MonoBehaviour
 	//Selected object
 	private GameObject lastSelected;
 	public Color selectedColor;
+
+	[Header("OnlineLobby")]
+	public GameObject playerNameInputField;
 
 	// Use this for initialization
 	void Start () 
@@ -40,6 +44,8 @@ public class MainMenuController : MonoBehaviour
 		LocalMenu.SetActive(false);
 		OnlineMenu.SetActive(true);
 		SettingsMenu.SetActive(false);
+
+		playerNameInputField.GetComponent<TMP_InputField>().text = PlayerPrefs.GetString("PlayerName");
 	}
 
 	public void ChangeToSettingsMenu()
@@ -92,6 +98,7 @@ public class MainMenuController : MonoBehaviour
 
 	public void GoOnline()
 	{
-
+		PlayerPrefs.SetString("PlayerName", playerNameInputField.GetComponent<TMP_InputField>().text);
+		SceneManager.LoadScene("OnlineLobby");
 	}
 }
