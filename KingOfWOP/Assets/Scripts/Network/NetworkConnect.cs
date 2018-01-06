@@ -22,6 +22,9 @@ public class NetworkConnect : MonoBehaviour
 
 	//RoomCanvas
 	public GameObject roomCanvas;
+	private List<GameObject> roomEntryList;
+	public GameObject roomEntry;
+	public GameObject lobbyPanel;
 
 	void Awake()
 	{
@@ -60,12 +63,14 @@ public class NetworkConnect : MonoBehaviour
 	private void OnJoinedLobby()
 	{
 		Debug.Log("Joined Lobby.....");
+		ShowRooms();
 	}
 
 	private void OnJoinedRoom()
 	{
 		Debug.Log("Joined Room");
 		OpenRoomCanvas();
+		ShowPlayersInRoom();
 	}
 
 	private void OnLeftRoom()
@@ -182,11 +187,44 @@ public class NetworkConnect : MonoBehaviour
 		StartCoroutine("RefreshPlayerCount");	
 	}
 
+	public void ShowRooms()
+	{
+		StartCoroutine("ClearRoomList");
+
+		roomEntryList = new List<GameObject>();
+		var roomList = PhotonNetwork.GetRoomList();
+
+		foreach (var room in roomList)
+		{
+			GameObject currentEntry = Instantiate(roomEntry, lobbyPanel.transform);
+			roomEntryList.Add(currentEntry);
+			currentEntry.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = room.Name;
+		}
+	}
+
+	public void ShowPlayersInRoom()
+	{
+
+	}
+
+	public void PressReady()
+	{
+
+	}
+
+	IEnumerator ClearRoomList()
+	{
+		foreach (var room in roomEntryList)
+		{
+			Destroy(room);
+		}
+		yield return new WaitForSeconds(0.1f);
+	}
+
 	void InitUI()
 	{
 		mainCanvas.SetActive(true);
 		roomCreateCanvas.SetActive(false);
 		roomCanvas.SetActive(false);
 	}
-
 }
