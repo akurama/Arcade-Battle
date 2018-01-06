@@ -8,10 +8,25 @@ public class GamemodeBase : MonoBehaviour
     public int[] gameScroes = new int[2];
     public int gameToTotal;
     public float time = 60f;
+    private float storeTime = 0f;
+
+    [SerializeField] private bool debug;
 
     public void InitStart()
     {
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        if(debug)
+            time /= 6;
+
+        if(gameManager == null)
+            gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+
+        storeTime = time;
+    }
+
+    public virtual void Refresh()
+    {
+        if(storeTime > 0f)
+            time = storeTime;
     }
 
     public virtual void CheckIfEnd()
@@ -22,5 +37,10 @@ public class GamemodeBase : MonoBehaviour
     public virtual void GameEnd()
     {
 
+    }
+
+    void OnEnable()
+    {
+        Refresh();        
     }
 }

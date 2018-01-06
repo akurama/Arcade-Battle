@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
 
     public int multiplyer = 1;
     public int[] scroes = new int[2];
+    public int currendGameIndex = 0;
 
     // Use this for initialization
     void Start()
@@ -20,12 +21,14 @@ public class GameManager : MonoBehaviour
         multiplyer = 1;
         PlayAnim();
         FirstGame();
+
+        Debug.Log(randomGamemodes.Count);
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        
     }
 
     void PlayAnim()
@@ -38,11 +41,15 @@ public class GameManager : MonoBehaviour
 
     void FirstGame()
     {
-        randomGamemodes[0].gameObject.SetActive(true);
+        currendGameIndex = 0;
+        randomGamemodes[currendGameIndex].gameObject.SetActive(true);
     }
 
     void RandomOrder()
     {
+        if(!PhotonNetwork.connected)
+            Debug.Log("Local Multiplayer");
+
         List<GamemodeBase> store = Gamemodes;
 
         int i = store.Count;
@@ -58,6 +65,20 @@ public class GameManager : MonoBehaviour
 
     public void NextGame()
     {
-        
+        if(currendGameIndex + 1 < randomGamemodes.Count)
+        {
+            randomGamemodes[currendGameIndex].gameObject.active = false;
+            currendGameIndex++;
+            randomGamemodes[currendGameIndex].gameObject.active = true;
+        }
+        else
+        {
+            ShowResults();
+        }
+    }
+
+    public void ShowResults()
+    {
+        Debug.Log("Hey zeige mal die results");
     }
 }
