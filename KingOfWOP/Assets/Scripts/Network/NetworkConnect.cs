@@ -27,6 +27,12 @@ public class NetworkConnect : MonoBehaviour
 	public GameObject roomEntry;
 	public GameObject lobbyPanel;
 
+	//PlayerCanvas
+	public GameObject playerCanvas;
+	private List <GameObject> playerEntryList;
+	public GameObject playerEntry;
+	public GameObject roomPanel;
+
 	void Awake()
 	{
 		SetNickname();
@@ -37,7 +43,10 @@ public class NetworkConnect : MonoBehaviour
 	void Start () 
 	{
 		roomEntryList = new List<GameObject>();
+		playerEntryList = new List<GameObject>();
+
 		InitUI();
+
 		Debug.Log("Connecting to server.......");
 		PhotonNetwork.ConnectUsingSettings("0.0.1");	
 	}
@@ -50,7 +59,9 @@ public class NetworkConnect : MonoBehaviour
 
 	void OnDestroy()
 	{
+		#if !UNITY_EDITOR
 		SceneManager.LoadScene("MainMenu");
+		#endif
 	}
 
 	//PhotonCallbacks
@@ -208,7 +219,17 @@ public class NetworkConnect : MonoBehaviour
 
 	public void ShowPlayersInRoom()
 	{
-
+		StartCoroutine("ClearPlayerList");
+		
+		playerEntryList = new List<GameObject>();
+		var players = PhotonNetwork.playerList;
+		
+		foreach (var player in players)
+		{
+			GameObject currentEntry = Instantiate(playerEntry, roomPanel.transform);
+			playerEntryList.Add(currentEntry);
+			currentEntry.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = player.NickName;
+		}
 	}
 
 	public void PressReady()
@@ -221,6 +242,15 @@ public class NetworkConnect : MonoBehaviour
 		foreach (var room in roomEntryList)
 		{
 			Destroy(room);
+		}
+		yield return new WaitForSeconds(0.1f);
+	}
+
+	IEnumerator ClearPlayerList()
+	{
+		foreach (var player in playerEntryList)
+		{
+			Destroy(player);
 		}
 		yield return new WaitForSeconds(0.1f);
 	}
