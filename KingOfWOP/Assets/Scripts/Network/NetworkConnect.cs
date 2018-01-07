@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 using TMPro;
 
 public class NetworkConnect : MonoBehaviour 
@@ -44,7 +45,7 @@ public class NetworkConnect : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		
+
 	}
 
 	void OnDestroy()
@@ -106,6 +107,8 @@ public class NetworkConnect : MonoBehaviour
 	public void JoinRoom()
 	{
 		string roomName = "";
+		GameObject clickedButton = EventSystem.current.currentSelectedGameObject;
+		roomName = clickedButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text;
 		PhotonNetwork.JoinRoom(roomName);
 	}
 
