@@ -126,6 +126,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: 0
   speed: 10
+  photonView: {fileID: 0}
 --- !u!114 &114492223603758030
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -141,12 +142,12 @@ MonoBehaviour:
   group: 0
   OwnerShipWasTransfered: 0
   prefixBackup: -1
-  synchronization: 0
+  synchronization: 3
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
   ObservedComponents:
-  - {fileID: 0}
+  - {fileID: 114259216419720826}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
