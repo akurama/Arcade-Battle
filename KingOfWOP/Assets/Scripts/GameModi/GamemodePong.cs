@@ -7,7 +7,15 @@ public class GamemodePong : GamemodeBase
     // Use this for initialization
     void Start()
     {
-        InitStart();
+        if(PhotonNetwork.connected)
+        {
+            photonView = GetComponent<PhotonView>();
+            InitStartNetwork();
+        }
+        else
+        {
+            InitStart();
+        }
     }
 
     // Update is called once per frame
@@ -40,6 +48,28 @@ public class GamemodePong : GamemodeBase
         for(int i = 0; i < gameScroes.Length; i++)
         {
             gameScroes[i] = 0;
+        }
+    }
+
+    public void InitStartNetwork()
+    {
+        if(!PhotonNetwork.isMasterClient)
+            return;
+
+        
+    }
+
+    [PunRPC]
+    void CreatePlayers()
+    {
+        Vector3 SpawnPosition = new Vector3();
+        if(PhotonNetwork.isMasterClient)
+        {
+
+        }
+        else
+        {
+            
         }
     }
 }

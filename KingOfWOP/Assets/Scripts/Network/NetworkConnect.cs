@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using TMPro;
 
-public class NetworkConnect : MonoBehaviour 
+public class NetworkConnect : Photon.MonoBehaviour 
 {
 
 	private string playerName;
@@ -32,6 +32,9 @@ public class NetworkConnect : MonoBehaviour
 	private List <GameObject> playerEntryList;
 	public GameObject playerEntry;
 	public GameObject roomPanel;
+	public int readyPlayers;
+	public GameObject GoButton;
+	public bool playerIsReady = false;
 
 	void Awake()
 	{
@@ -48,13 +51,29 @@ public class NetworkConnect : MonoBehaviour
 		InitUI();
 
 		Debug.Log("Connecting to server.......");
-		PhotonNetwork.ConnectUsingSettings("0.0.1");	
+		PhotonNetwork.ConnectUsingSettings("0.0.1");
+
+		
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
+		if(!PhotonNetwork.isMasterClient)
+			return;
 
+		if(AllPlayersReady())
+		{
+			//Show Ready Button
+			if(GoButton != null)
+				GoButton.SetActive(true);
+		}
+		else
+		{
+			//Disappear ReadyButton
+			if(GoButton != null)
+				GoButton.SetActive(false);
+		}
 	}
 
 	void OnDestroy()
@@ -83,13 +102,19 @@ public class NetworkConnect : MonoBehaviour
 	{
 		Debug.Log("Joined Room");
 		OpenRoomCanvas();
-		ShowPlayersInRoom();
+		
+		photonView.RPC("ShowPlayersInRoom", PhotonTargets.All);
 	}
 
 	private void OnLeftRoom()
 	{
 		Debug.Log("Room Left");
 		CloseRoomCanvas();
+	}
+
+	private void OnPlayerJoined()
+	{
+		ShowPlayersInRoom();
 	}
 
 	private void OnDisconnectedFromPhoton()
@@ -104,6 +129,12 @@ public class NetworkConnect : MonoBehaviour
 		if(!PhotonNetwork.inRoom)
 		{
 			string roomName = roomNameText.GetComponent<TMP_InputField>().text;
+
+			if(roomName == "")
+			{
+				string store = PhotonNetwork.playerName;
+				roomName = store + "s Room";
+			}
 
 			RoomOptions roomOptions = new RoomOptions();
 			roomOptions.MaxPlayers = 2;
@@ -152,6 +183,7 @@ public class NetworkConnect : MonoBehaviour
 		roomCreateCanvas.SetActive(false);
 		mainCanvas.SetActive(false);
 		roomCanvas.SetActive(true);
+		GoButton.SetActive(false);		
 	}
 
 	public void CloseRoomCanvas()
@@ -195,7 +227,8 @@ public class NetworkConnect : MonoBehaviour
 
 		if(refreshPlayerCountText)
 		{
-			playerCountText.GetComponent<TextMeshProUGUI>().text = "Players Online: " + playerCount;
+			if(playerCountText != null)
+				playerCountText.GetComponent<TextMeshProUGUI>().text = "Players Online: " + playerCount;
 		}
 
 		yield return new WaitForSeconds(5);
@@ -211,12 +244,16 @@ public class NetworkConnect : MonoBehaviour
 
 		foreach (var room in roomList)
 		{
-			GameObject currentEntry = Instantiate(roomEntry, lobbyPanel.transform);
-			roomEntryList.Add(currentEntry);
-			currentEntry.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = room.Name;
+			if(room.PlayerCount < 2)
+			{
+				GameObject currentEntry = Instantiate(roomEntry, lobbyPanel.transform);
+				roomEntryList.Add(currentEntry);
+				currentEntry.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = room.Name;
+			}
 		}
 	}
 
+	[PunRPC]
 	public void ShowPlayersInRoom()
 	{
 		StartCoroutine("ClearPlayerList");
@@ -227,6 +264,7 @@ public class NetworkConnect : MonoBehaviour
 		foreach (var player in players)
 		{
 			GameObject currentEntry = Instantiate(playerEntry, roomPanel.transform);
+			currentEntry.GetComponent<PlayerOptions>().thisPlayer = player;
 			playerEntryList.Add(currentEntry);
 			currentEntry.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = player.NickName;
 		}
@@ -260,5 +298,48 @@ public class NetworkConnect : MonoBehaviour
 		mainCanvas.SetActive(true);
 		roomCreateCanvas.SetActive(false);
 		roomCanvas.SetActive(false);
+	}
+
+	bool AllPlayersReady()
+	{
+		if(readyPlayers == PhotonNetwork.playerList.Length)
+		{
+			return true;
+		}
+		
+		return false;
+	}
+
+	public void ReadyButtonPressed()
+	{
+		photonView.RPC("LoadGameScene", PhotonTargets.All);
+	}
+
+	public void OnReadyPressed()
+	{
+		if(!PhotonNetwork.player.IsLocal)
+			return;
+
+		playerIsReady = !playerIsReady;
+		photonView.RPC("PlayerPressedReady", PhotonTargets.All, playerIsReady);
+	}
+
+	[PunRPC]
+	void LoadGameScene()
+	{
+		SceneManager.LoadScene("GameSceneOnline");
+	}
+
+	[PunRPC]
+	void PlayerPressedReady(bool isReady)
+	{
+		if(isReady)
+		{
+			readyPlayers++;
+		}
+		else
+		{
+			readyPlayers--;
+		}
 	}
 }

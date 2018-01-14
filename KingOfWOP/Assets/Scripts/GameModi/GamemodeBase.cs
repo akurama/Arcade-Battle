@@ -12,6 +12,9 @@ public class GamemodeBase : MonoBehaviour
 
     [SerializeField] private bool debug;
 
+    [Header("Network")]
+    public PhotonView photonView;
+
     public void InitStart()
     {
         if(debug)
