@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class GamemodePong : GamemodeBase
@@ -56,7 +57,7 @@ public class GamemodePong : GamemodeBase
         if(!PhotonNetwork.isMasterClient)
             return;
 
-        
+        photonView.RPC("CreatePlayers", PhotonTargets.All);
     }
 
     [PunRPC]
@@ -65,11 +66,19 @@ public class GamemodePong : GamemodeBase
         Vector3 SpawnPosition = new Vector3();
         if(PhotonNetwork.isMasterClient)
         {
+            SpawnPosition.x = -10f;
+            SpawnPosition.y = 0f;
+            SpawnPosition.z = 0f;
 
+            PhotonNetwork.Instantiate(Path.Combine("Pong", "Player"), SpawnPosition, Quaternion.identity, 0);
         }
         else
         {
-            
+            SpawnPosition.x = 10f;
+            SpawnPosition.y = 0f;
+            SpawnPosition.z = 0f;
+
+            PhotonNetwork.Instantiate(Path.Combine("Pong", "Player"), SpawnPosition, Quaternion.identity, 0);
         }
     }
 }

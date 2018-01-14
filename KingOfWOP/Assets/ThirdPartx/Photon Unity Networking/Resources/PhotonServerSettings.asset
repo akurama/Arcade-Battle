@@ -50,4 +50,5 @@ MonoBehaviour:
   - SyncRandomModes
   - PlayAnimSync
   - StartNextGame
+  - CreatePlayers
   DisableAutoOpenWizard: 1
