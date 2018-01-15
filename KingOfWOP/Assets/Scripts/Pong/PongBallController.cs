@@ -11,6 +11,10 @@ public class PongBallController : MonoBehaviour
     private Vector3 beginDir;
     public GamemodePong gamemodePong;
 
+    [Header("Network")]
+    public PhotonView photonView;
+    [SerializeField] Vector3 targetPosition;
+
 
     // Use this for initialization
     void Start()
@@ -26,7 +30,28 @@ public class PongBallController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Movement();
+        if (PhotonNetwork.connected)
+        {
+            Movement();
+        }
+        else
+        {
+            Movement();
+        }
+    }
+
+    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.isWriting)
+        {
+            //Position
+            stream.SendNext(movementDirection);
+        }
+        else
+        {
+            //Position
+            movementDirection = (Vector3) stream.ReceiveNext();
+        }
     }
 
     bool RandomStart()
@@ -55,19 +80,20 @@ public class PongBallController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.name == "Left")
+        if (PhotonNetwork.connected)
         {
-            movementDirection.x = 1f;
-            movementDirection.y = hitVelo(transform.position, collision.transform.position, collision.collider.bounds.size.y);
-        }
-        else if (collision.gameObject.name == "Right")
-        {
-            movementDirection.x = -1f;
-            movementDirection.y = hitVelo(transform.position, collision.transform.position, collision.collider.bounds.size.y);
-        }
-        else if (collision.gameObject.name == "Bounds")
-        {
-            movementDirection.y *= -1f;
+            if (PhotonNetwork.isMasterClient)
+            {
+                if (collision.gameObject.tag == "Player")
+                {
+                    movementDirection.x *= -1f;
+                    movementDirection.y = hitVelo(transform.position, collision.transform.position, collision.collider.bounds.size.y);
+                }
+                else if (collision.gameObject.tag == "Bounds")
+                {
+                    movementDirection.y *= -1f;
+                }
+            }
         }
     }
 
@@ -108,5 +134,16 @@ public class PongBallController : MonoBehaviour
             movementDirection.x = 1;
             movementDirection.y = 0;
         }
+    }
+
+    void OnGUI()
+    {
+        string text = "Movement x: " + movementDirection.x + " Movement y: " + movementDirection.y;
+
+        GUIStyle style = new GUIStyle();
+
+        style.fontSize = 30;
+
+        GUI.Label(new Rect(10, 10, 500, 100), text, style);
     }
 }

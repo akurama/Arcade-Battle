@@ -51,4 +51,6 @@ MonoBehaviour:
   - PlayAnimSync
   - StartNextGame
   - CreatePlayers
+  - CleanUp
+  - AddValueInt
   DisableAutoOpenWizard: 1

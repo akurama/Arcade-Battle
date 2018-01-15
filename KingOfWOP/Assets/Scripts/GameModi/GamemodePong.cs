@@ -6,9 +6,12 @@ using UnityEngine;
 public class GamemodePong : GamemodeBase
 {
     [Header("Network-Pong")]
+    public PhotonView _photonView;
     public int spawnedPlayers = 0;
 
     public GameObject localPlayer;
+    public bool doOnce = false;
+    public GameObject ball;
 
     // Use this for initialization
     void Start()
@@ -16,6 +19,7 @@ public class GamemodePong : GamemodeBase
         if(PhotonNetwork.connected)
         {
             photonView = GetComponent<PhotonView>();
+            _photonView = GetComponent<PhotonView>();
             InitStartNetwork();
         }
         else
@@ -27,6 +31,17 @@ public class GamemodePong : GamemodeBase
     // Update is called once per frame
     void Update()
     {
+        if (PhotonNetwork.connected)
+        {
+            if (PhotonNetwork.isMasterClient)
+            {
+                if (doOnce == false && spawnedPlayers == PhotonNetwork.playerList.Length)
+                {
+                    InitBall();
+                }
+            }
+        }
+
         time -= Time.deltaTime;
     }
 
@@ -62,7 +77,28 @@ public class GamemodePong : GamemodeBase
         if(!PhotonNetwork.isMasterClient)
             return;
 
+        doOnce = false;
         photonView.RPC("CreatePlayers", PhotonTargets.All);
+    }
+
+    public void InitBall()
+    {
+        PhotonNetwork.Instantiate(Path.Combine("Pong", "Ball"), new Vector3(0, 0, 0), Quaternion.identity, 0);
+        doOnce = true;
+    }
+
+    [PunRPC]
+    void CleanUp()
+    {
+        PhotonNetwork.Destroy(localPlayer);
+        localPlayer = null;
+        doOnce = false;
+
+        if (PhotonNetwork.isMasterClient)
+        {
+            PhotonNetwork.Destroy(ball);
+            ball = null;
+        }
     }
 
     [PunRPC]
@@ -75,7 +111,7 @@ public class GamemodePong : GamemodeBase
             SpawnPosition.y = 0f;
             SpawnPosition.z = 0f;
 
-            PhotonNetwork.Instantiate(Path.Combine("Pong", "Player"), SpawnPosition, Quaternion.identity, 0);
+            localPlayer = PhotonNetwork.Instantiate(Path.Combine("Pong", "Player"), SpawnPosition, Quaternion.identity, 0);
             spawnedPlayers++;
         }
         else
@@ -84,8 +120,15 @@ public class GamemodePong : GamemodeBase
             SpawnPosition.y = 0f;
             SpawnPosition.z = 0f;
 
-            PhotonNetwork.Instantiate(Path.Combine("Pong", "Player"), SpawnPosition, Quaternion.identity, 0);
-            spawnedPlayers++;
+            localPlayer = PhotonNetwork.Instantiate(Path.Combine("Pong", "Player"), SpawnPosition, Quaternion.identity, 0);
+            Debug.Log(this._photonView);
+            GetComponent<PhotonView>().RPC("AddValueInt", PhotonTargets.MasterClient, spawnedPlayers, 1);
         }
+    }
+
+    [PunRPC]
+    void AddValueInt(int value, int amout)
+    {
+        //value += amout;
     }
 }
