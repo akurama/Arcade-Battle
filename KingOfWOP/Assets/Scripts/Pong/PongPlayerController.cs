@@ -8,7 +8,7 @@ public class PongPlayerController : MonoBehaviour
     public float speed = 1f;
 
     [Header("Network")]
-    private Vector3 targetPosition;
+    [SerializeField] Vector3 targetPosition;
     public PhotonView photonView;
 
     // Use this for initialization
@@ -31,7 +31,7 @@ public class PongPlayerController : MonoBehaviour
             }
             else
             {
-                SmoothMovement();
+                transform.position = SmoothMovement();
             }
         }
         else
@@ -70,9 +70,9 @@ public class PongPlayerController : MonoBehaviour
         this.GetComponent<Rigidbody>().velocity = new Vector3(0, v * speed, 0);
     }
 
-    void SmoothMovement()
+    Vector3 SmoothMovement()
     {
-
+        return Vector3.Lerp(transform.position, targetPosition, 0.25f);        
     }
 }
 

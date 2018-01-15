@@ -168,12 +168,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Gamemodes:
-  - {fileID: 746831525}
-  - {fileID: 746831524}
   - {fileID: 746831523}
-  - {fileID: 746831522}
-  - {fileID: 746831521}
-  - {fileID: 746831520}
+  - {fileID: 746831523}
+  - {fileID: 746831523}
+  - {fileID: 746831523}
+  - {fileID: 746831523}
+  - {fileID: 746831523}
   randomGamemodes: []
   texts:
   - {fileID: 746831531}
@@ -475,42 +475,12 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 75d13167ea6215842adb00330582502a, type: 2}
   m_IsPrefabParent: 0
---- !u!114 &746831520 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114137625017649030, guid: 75d13167ea6215842adb00330582502a,
-    type: 2}
-  m_PrefabInternal: {fileID: 746831519}
-  m_Script: {fileID: 11500000, guid: 2d5d3252cbc16b64c9b9edc75555eac1, type: 3}
---- !u!114 &746831521 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114144247553749320, guid: 75d13167ea6215842adb00330582502a,
-    type: 2}
-  m_PrefabInternal: {fileID: 746831519}
-  m_Script: {fileID: 11500000, guid: 3ba1f38fc7ee04d4798793189b2911cf, type: 3}
---- !u!114 &746831522 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114524119511696208, guid: 75d13167ea6215842adb00330582502a,
-    type: 2}
-  m_PrefabInternal: {fileID: 746831519}
-  m_Script: {fileID: 11500000, guid: ee4a9c5281f4e88469922e8a7cfa8913, type: 3}
 --- !u!114 &746831523 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114178939404975324, guid: 75d13167ea6215842adb00330582502a,
     type: 2}
   m_PrefabInternal: {fileID: 746831519}
   m_Script: {fileID: 11500000, guid: 83a3398d2aee76b40b74c62cd5eeac50, type: 3}
---- !u!114 &746831524 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114328450249372070, guid: 75d13167ea6215842adb00330582502a,
-    type: 2}
-  m_PrefabInternal: {fileID: 746831519}
-  m_Script: {fileID: 11500000, guid: 69a6b2c3585e2014b8f71ac401ec7fb7, type: 3}
---- !u!114 &746831525 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114608796574086500, guid: 75d13167ea6215842adb00330582502a,
-    type: 2}
-  m_PrefabInternal: {fileID: 746831519}
-  m_Script: {fileID: 11500000, guid: c7a3974857ce3644ea59aa698b0fb90b, type: 3}
 --- !u!114 &746831526 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114351953836250994, guid: 75d13167ea6215842adb00330582502a,
