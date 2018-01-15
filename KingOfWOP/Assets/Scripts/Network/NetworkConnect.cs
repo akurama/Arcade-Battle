@@ -53,7 +53,7 @@ public class NetworkConnect : Photon.MonoBehaviour
 		Debug.Log("Connecting to server.......");
 		PhotonNetwork.ConnectUsingSettings("0.0.1");
 
-		
+	    PhotonNetwork.sendRate = 50;
 	}
 	
 	// Update is called once per frame

@@ -5,6 +5,11 @@ using UnityEngine;
 
 public class GamemodePong : GamemodeBase
 {
+    [Header("Network-Pong")]
+    public int spawnedPlayers = 0;
+
+    public GameObject localPlayer;
+
     // Use this for initialization
     void Start()
     {
@@ -71,6 +76,7 @@ public class GamemodePong : GamemodeBase
             SpawnPosition.z = 0f;
 
             PhotonNetwork.Instantiate(Path.Combine("Pong", "Player"), SpawnPosition, Quaternion.identity, 0);
+            spawnedPlayers++;
         }
         else
         {
@@ -79,6 +85,7 @@ public class GamemodePong : GamemodeBase
             SpawnPosition.z = 0f;
 
             PhotonNetwork.Instantiate(Path.Combine("Pong", "Player"), SpawnPosition, Quaternion.identity, 0);
+            spawnedPlayers++;
         }
     }
 }
